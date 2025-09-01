@@ -1,6 +1,7 @@
 import todoItems from "../stores/todoItems.json";
 import styles from "./TodoList.module.css";
 import { useState } from "react";
+import { useTodoListStore } from "../stores/todoListStore";
 
 function TodoItem({ title, completed, onToggle }) {
   // 使用 CSS 模块动态生成 className
@@ -16,21 +17,16 @@ function TodoItem({ title, completed, onToggle }) {
   );
 }
 export default function TodoList() {
-  const [todos, setTodos] = useState(todoItems);
-  const [isFilter, setIsFilter] = useState(false);
+  const { todos, isFilter, toggleTodo, setIsFilter } = useTodoListStore();
 
   const filteredItems = isFilter
     ? todos.filter((item) => !item.completed)
     : todos;
 
-  const handleItemToggle = (item) => {
-    console.log(item);
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === item.id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  const handleToggle = (id) => {
+    toggleTodo(id);
   };
+
   return (
     <section>
       <h1>Sally Ride 的 Todo 清单</h1>
@@ -38,16 +34,16 @@ export default function TodoList() {
         <input
           type="checkbox"
           checked={isFilter}
-          onChange={() => setIsFilter(!isFilter)}
+          onChange={(e) => setIsFilter(e.target.checked)}
         />
         过滤掉已完成的待办事项
       </label>
       <ul>
         {filteredItems.map((item, index) => (
           <TodoItem
-            key={index}
+            key={item.id}
             {...item}
-            onToggle={() => handleItemToggle(item)}
+            onToggle={() => handleToggle(item.id)}
           />
         ))}
       </ul>
