@@ -1,4 +1,4 @@
-import todoItems from "../todoItems.json";
+import todoItems from "../stores/todoItems.json";
 import styles from "./TodoList.module.css";
 import { useState } from "react";
 
