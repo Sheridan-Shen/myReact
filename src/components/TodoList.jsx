@@ -3,6 +3,7 @@ import styles from "./TodoList.module.css";
 import { useState } from "react";
 import { useTodoListStore } from "../stores/todoListStore";
 import AddTodoForm from "./AddTodoForm";
+import ClearCompletedButton from "./ClearCompletedButton";
 
 function TodoItem({ title, completed, onToggle }) {
   // 使用 CSS 模块动态生成 className
@@ -51,6 +52,7 @@ export default function TodoList() {
           />
         ))}
       </ul>
+      <ClearCompletedButton />
     </section>
   );
 }
