@@ -28,11 +28,6 @@ export const useTodoListStore = create((set, get) => ({
     }));
   },
 
-  get completedCount() {
-    const state = get();
-    return state.todos.filter((todo) => todo.completed).length;
-  },
-
   clearCompleted: () => {
     set((state) => ({
       todos: state.todos.filter((todo) => !todo.completed),
