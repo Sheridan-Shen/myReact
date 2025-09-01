@@ -2,6 +2,7 @@ import todoItems from "../stores/todoItems.json";
 import styles from "./TodoList.module.css";
 import { useState } from "react";
 import { useTodoListStore } from "../stores/todoListStore";
+import AddTodoForm from "./AddTodoForm";
 
 function TodoItem({ title, completed, onToggle }) {
   // 使用 CSS 模块动态生成 className
@@ -17,7 +18,7 @@ function TodoItem({ title, completed, onToggle }) {
   );
 }
 export default function TodoList() {
-  const { todos, isFilter, toggleTodo, setIsFilter } = useTodoListStore();
+  const { todos, isFilter, setIsFilter, toggleTodo } = useTodoListStore();
 
   const filteredItems = isFilter
     ? todos.filter((item) => !item.completed)
@@ -37,6 +38,9 @@ export default function TodoList() {
           onChange={(e) => setIsFilter(e.target.checked)}
         />
         过滤掉已完成的待办事项
+      </label>
+      <label>
+        <AddTodoForm />
       </label>
       <ul>
         {filteredItems.map((item, index) => (

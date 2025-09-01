@@ -14,5 +14,17 @@ export const useTodoListStore = create((set, get) => ({
 
   setIsFilter: (isFilter) => set({ isFilter }),
 
-  
+  addTodo: (title) => {
+    if (!title?.trim()) return;
+
+    const newTodo = {
+      id: Date.now(),
+      title: title.trim(),
+      completed: false,
+    };
+
+    set((state) => ({
+      todos: [newTodo, ...state.todos],
+    }));
+  },
 }));
