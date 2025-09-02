@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useTodoListStore } from "../../stores/todoListStore";
 import styles from "./TodoList.module.css";
 
-export default function AddTodoForm() {
+export default function AddTodoForm({addTodo}) {
   const [title, setTitle] = useState("");
-  const { addTodo } = useTodoListStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
