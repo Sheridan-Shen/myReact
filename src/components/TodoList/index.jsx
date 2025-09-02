@@ -1,6 +1,5 @@
 import styles from "./TodoList.module.css";
 import { useEffect, useState } from "react";
-import { useTodoListStore } from "../../stores/todoListStore";
 import AddTodoForm from "./AddTodoForm";
 import ClearCompletedButton from "./ClearCompletedButton";
 import { useTodoStore } from "../../stores/todoStore";
@@ -31,6 +30,8 @@ export default function TodoList() {
     handleAddTodo,
   } = useTodoStore();
 
+  // const {handleToggleTodo} = useTodoStore();  
+
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -39,6 +40,8 @@ export default function TodoList() {
     ? todos.filter((item) => !item.completed)
     : todos;
 
+  console.log("filteredItems:", filteredItems);
+  
   return (
     <section>
       <h1>Sally Ride 的 Todo 清单</h1>

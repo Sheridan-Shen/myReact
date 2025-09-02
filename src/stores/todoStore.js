@@ -9,12 +9,10 @@ export const useTodoStore = create((set, get) => ({
 
   setIsFilter: (isFilter) => set({ isFilter }),
 
-  handleToggleTodo: (id) => {
-    set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      ),
-    }));
+  handleToggleTodo: async (id) => {
+    await get().updateTodo(id, {
+      completed: !get().todos.find((todo) => todo.id === id).completed,
+    });
   },
 
   handleAddTodo: async (title) => {
@@ -63,6 +61,7 @@ export const useTodoStore = create((set, get) => ({
         todos: state.todos.map((todo) => (todo.id === id ? data : todo)),
         loading: false,
       }));
+      console.log("todo:", get().todos);
     } catch (error) {
       set({ error: error.message, loading: false });
     }
