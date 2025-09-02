@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTodoListStore } from "../stores/todoListStore";
+import { useTodoListStore } from "../../stores/todoListStore";
 import styles from "./TodoList.module.css";
 
 export default function AddTodoForm() {

@@ -1,7 +1,6 @@
-import todoItems from "../stores/todoItems.json";
 import styles from "./TodoList.module.css";
 import { useState } from "react";
-import { useTodoListStore } from "../stores/todoListStore";
+import { useTodoListStore } from "../../stores/todoListStore";
 import AddTodoForm from "./AddTodoForm";
 import ClearCompletedButton from "./ClearCompletedButton";
 
@@ -18,16 +17,13 @@ function TodoItem({ title, completed, onToggle }) {
     </li>
   );
 }
+
 export default function TodoList() {
-  const { todos, isFilter, setIsFilter, toggleTodo } = useTodoListStore();
+  const { todos, isFilter, setIsFilter, handleToggleTodo, handleAddTodo } = useTodoListStore();
 
   const filteredItems = isFilter
     ? todos.filter((item) => !item.completed)
     : todos;
-
-  const handleToggle = (id) => {
-    toggleTodo(id);
-  };
 
   return (
     <section>
@@ -41,14 +37,14 @@ export default function TodoList() {
         过滤掉已完成的待办事项
       </label>
       <label>
-        <AddTodoForm />
+        <AddTodoForm addTodo={handleAddTodo} />
       </label>
       <ul>
         {filteredItems.map((item, index) => (
           <TodoItem
             key={item.id}
             {...item}
-            onToggle={() => handleToggle(item.id)}
+            onToggle={() => handleToggleTodo(item.id)}
           />
         ))}
       </ul>

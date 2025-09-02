@@ -5,7 +5,7 @@ export const useTodoListStore = create((set, get) => ({
   todos: todoItems,
   isFilter: false,
 
-  toggleTodo: (id) =>
+  handleToggleTodo: (id) =>
     set((state) => ({
       todos: state.todos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
