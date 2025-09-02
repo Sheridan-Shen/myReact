@@ -27,6 +27,16 @@ export const useTodoStore = create((set, get) => ({
     await get().addTodo(newTodo.title);
   },
 
+  clearCompleted: async () => {
+    const completeTodoIds = get()
+      .todos.filter((todo) => todo.completed)
+      .map((todo) => todo.id);
+
+    console.log("completeTodoIds:", completeTodoIds);
+
+    await api.delete(`/todos`, { data: { ids: completeTodoIds } });
+  },
+
   // GET
   fetchTodos: async () => {
     set({ loading: true, error: null });
@@ -68,12 +78,14 @@ export const useTodoStore = create((set, get) => ({
   },
 
   // DELETE
-  deleteTodo: async (id) => {
+  deleteTodo: async (completedTodoIds) => {
     set({ loading: true, error: null });
     try {
-      await api.delete(`/todos/${id}`);
+      await api.delete(`/todos`, completedTodoIds);
       set((state) => ({
-        todos: state.todos.filter((todo) => todo.id !== id),
+        todos: state.todos.filter(
+          (todo) => !completedTodoIds.includes(todo.id)
+        ),
         loading: false,
       }));
     } catch (error) {

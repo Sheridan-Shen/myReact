@@ -40,8 +40,6 @@ export default function TodoList() {
     ? todos.filter((item) => !item.completed)
     : todos;
 
-  console.log("filteredItems:", filteredItems);
-  
   return (
     <section>
       <h1>Sally Ride 的 Todo 清单</h1>
@@ -66,7 +64,6 @@ export default function TodoList() {
         ))}
       </ul>
       <ClearCompletedButton />
-      {/* <Test></Test> */}
     </section>
   );
 }
