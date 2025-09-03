@@ -1,0 +1,48 @@
+name: Build and Package Frontend
+
+on:
+  push:
+    branches: [ main ]  # 支持主流主干分支
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 拉取代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.0'
+          cache: 'npm'  # 缓存 npm 依赖，加快构建
+
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 4. 构建项目（生成 dist 目录）
+      #    如果你用的是 Vite，构建命令是 `vite build`
+      #    如果是 Create React App，则是 `react-scripts build`
+      - name: Build project
+        run: npm run build
+        
+
+      # 5. 将构建产物打包为 zip 文件
+      #    假设构建输出目录是 dist/
+      - name: Package dist as zip
+        if: success()  # 只有构建成功才打包
+        run: |
+          zip -r frontend-dist.zip dist/
+
+      # 6. 上传制品
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist-${{ github.sha }}  # 用 commit SHA 区分不同版本
+          path: frontend-dist.zip
