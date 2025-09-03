@@ -7,6 +7,38 @@ export const useTodoStore = create((set, get) => ({
   loading: false,
   error: null,
 
+  // 分页状态（1-based）
+  page: 1,
+  limit: 5,
+
+  // 设置分页并重新加载
+  setPage: (page) => {
+    set({ page });
+    get().fetchTodosByPage();
+  },
+  setLimit: (limit) => {
+    set({ limit, page: 1 }); // 切换 limit 回到第一页
+    get().fetchTodosByPage();
+  },
+
+    // 获取数据
+  fetchTodosByPage: async () => {
+    const { page, limit } = get();
+    set({ loading: true, error: null });
+    try {
+      const data = await api.get("/todos", {
+        params: { page, limit },
+      });
+      // 假设后端返回的是 { content: [...], totalPages: x, ... } 或直接数组
+      set({
+        todos: Array.isArray(data) ? data : data.content || [],
+        loading: false,
+      });
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+
   setIsFilter: (isFilter) => set({ isFilter }),
 
   handleToggleTodo: async (id) => {

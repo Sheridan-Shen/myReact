@@ -1,0 +1,22 @@
+/* src/components/Pagination/Pagination.module.css */
+
+.pagination {
+  margin: 16px 0;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.pagination label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination input,
+.pagination select {
+  padding: 2px 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
